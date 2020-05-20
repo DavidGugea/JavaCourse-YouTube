@@ -1,7 +1,7 @@
 package DataStructures_Test_MY_CODE;
 import java.util.*;
 
-public interface SinglyLinkedList_Interface {
+public interface SinglyLinkedList_Interface{
 	/* HEAD NODE */
 	
 	SinglyLinkedNode head = null;
@@ -17,6 +17,8 @@ public interface SinglyLinkedList_Interface {
 	
 	ArrayList<Integer> getNodeData();
 	
+	boolean contains(int data);
+	
 	/* GENERAL METHODS */
 
 	/* INSERTION / DELETION / SEARCH */
@@ -24,9 +26,10 @@ public interface SinglyLinkedList_Interface {
 	void append(int data);
 	void prepend(int data);
 	
-	void insertAfterNode(SinglyLinkedNode node);
-	void insertAfterNodeWithData(int data);
-	void insertAtIndex(int index);
+	// the 'data' argument is for the node that we want to insert
+	void insertAfterNode(SinglyLinkedNode searchNode, int data);
+	void insertAfterNodeWithData(int searchData, int data);
+	void insertAtIndex(int searchIndex, int data);
 	
 	void deleteNode(SinglyLinkedNode node);
 	void deleteAtIndex(int index);
@@ -52,7 +55,10 @@ public interface SinglyLinkedList_Interface {
 	ArrayList<ArrayList<Integer>> splitAfterNode(SinglyLinkedNode node);
 	ArrayList<ArrayList<Integer>> splitAtIndex(int index);
 	
-	ArrayList pairsWithSum(int sum_value);
+	ArrayList<ArrayList<Integer>> pairsWithSum(int sum_value);
 	
 	/* OTHERS */
+	
+	// THROW CUSTOM EXCEPTION -- >
+	
 }
