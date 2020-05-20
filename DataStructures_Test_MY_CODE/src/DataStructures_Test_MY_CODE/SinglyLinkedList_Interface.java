@@ -21,7 +21,7 @@ public interface SinglyLinkedList_Interface{
 	
 	/* GENERAL METHODS */
 
-	/* INSERTION / DELETION / SEARCH */
+	/* INSERTION / DELETION */
 	
 	void append(int data);
 	void prepend(int data);
@@ -35,7 +35,7 @@ public interface SinglyLinkedList_Interface{
 	void deleteAtIndex(int index);
 	void deleteNodeWithData(int data);
 	
-	/* INSERTION / DELETION / SEARCH */
+	/* INSERTION / DELETION */
 
 	/* OTHERS */
 	

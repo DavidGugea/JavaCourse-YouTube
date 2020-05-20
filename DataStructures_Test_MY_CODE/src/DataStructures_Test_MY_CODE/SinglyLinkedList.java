@@ -231,14 +231,10 @@ public class SinglyLinkedList implements SinglyLinkedList_Interface{
 	/* OTHERS */
 	
 	public void nodeSwap(SinglyLinkedNode node_1, SinglyLinkedNode node_2) {
-		// Swap the .data & .next values between the two nodes
+		// Swap the .data value between the two nodes
 		int temp_data = node_1.data;
 		node_1.data = node_2.data;
 		node_2.data = temp_data;
-		
-		SinglyLinkedNode temp_node = node_1.next;
-		node_1.next = node_2.next;
-		node_2.next = temp_node;
 	}
 	
 	public void reverse() {
@@ -254,6 +250,9 @@ public class SinglyLinkedList implements SinglyLinkedList_Interface{
 			prev = current;
 			current = temp_next;
 		}
+		
+		// Update the head node to be the 'last' node;
+		this.head = prev;
 	}
 	
 	public void merge(boolean sort, SinglyLinkedList MERGE_SLLIST) {
@@ -272,7 +271,7 @@ public class SinglyLinkedList implements SinglyLinkedList_Interface{
 			// Rebuild the singly linked list.
 			this.head = new SinglyLinkedNode(NODE_DATA.get(0));
 			
-			for(int SORTED_NODE_DATA:NODE_DATA.subList(1, NODE_DATA.size() -1)) {
+			for(int SORTED_NODE_DATA:NODE_DATA.subList(1, NODE_DATA.size())) {
 				this.append(SORTED_NODE_DATA);
 			}
 		}
@@ -286,7 +285,7 @@ public class SinglyLinkedList implements SinglyLinkedList_Interface{
 		// Rebuild the singly linked list
 		this.head = new SinglyLinkedNode(SORTED_NODE_DATA.get(0));
 		
-		for(int NODE_DATA:SORTED_NODE_DATA.subList(0, SORTED_NODE_DATA.size() - 1)) {
+		for(int NODE_DATA:SORTED_NODE_DATA.subList(1, SORTED_NODE_DATA.size())) {
 			this.append(NODE_DATA);
 		}
 	}
@@ -306,8 +305,10 @@ public class SinglyLinkedList implements SinglyLinkedList_Interface{
 			}
 			
 			// We write check for counter - 1 because if the data appears only once in the ArrayList<Integer> then that means that we don't have any repetitions, so that means that it doesn't repeat itself. If we have '2', then counter - 1 is 1 so we have 1 duplicate for that number
+			System.out.println(String.format("%d -- > %d", data, counter));
 			if(counter - 1 > 0) {
-				repetitions.put(data, counter);
+				// We write counter - 1 because we need the number of times that it is repetead, not how many times it appears in the singly linked list.
+				repetitions.put(data, counter - 1); 
 			}
 		}
 		
@@ -424,7 +425,7 @@ public class SinglyLinkedList implements SinglyLinkedList_Interface{
 		ArrayList<ArrayList<Integer>> pairsWithSum = new ArrayList<ArrayList<Integer>>();
 		
 		for(ArrayList<Integer> pair:pairs) {
-			if(pair.get(0) + pair.get(1) == sum_value) {
+			if(pair.get(0) + pair.get(1) == sum_value && !pairsWithSum.contains(pair)) {
 				pairsWithSum.add(pair);
 			}
 		}
