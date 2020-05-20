@@ -219,4 +219,63 @@ public class SinglyLinkedList implements SinglyLinkedList_Interface{
 	}
 	
 	/* INSERTION / DELETION / SEARCH */
+	
+	/* OTHERS */
+	
+	public void nodeSwap(SinglyLinkedNode node_1, SinglyLinkedNode node_2) {
+		// Swap the .data & .next values between the two nodes
+		int temp_data = node_1.data;
+		node_1.data = node_2.data;
+		node_2.data = temp_data;
+		
+		SinglyLinkedNode temp_node = node_1.next;
+		node_1.next = node_2.next;
+		node_2.next = temp_node;
+	}
+	
+	public void reverse() {
+		// Change the pointers
+		SinglyLinkedNode prev = null;
+		SinglyLinkedNode current = this.head;
+		
+		while(current != null) {
+			SinglyLinkedNode temp_next = current.next;
+			
+			current.next = prev;
+			
+			prev = current;
+			current = temp_next;
+		}
+	}
+	
+	public void merge(boolean sort, SinglyLinkedList MERGE_SLLIST) {
+		// the "sort" data will sort all the node data from the list after we will merge all the data with the MERGE_SLLIST data
+		
+		// Start by merging the data with the data from the MERGE_SLLIST
+		for(int NODE_DATA:MERGE_SLLIST.getNodeData()) {
+			this.append(NODE_DATA);
+		}
+		
+		if(sort) {
+			// Store all the node data in an ArrayList<Integer> and sort that array. After that, rebuild the singly linked list.
+			ArrayList<Integer> NODE_DATA = this.getNodeData();
+			Collections.sort(NODE_DATA);
+			
+			// Rebuild the singly linked list.
+			SinglyLinkedList new_SLLIST = new SinglyLinkedList();
+			
+			for(int SORTED_NODE_DATA:NODE_DATA) {
+				new_SLLIST.append(SORTED_NODE_DATA);
+			}
+			
+			// Update the singly linked list
+			this.head = new SinglyLinkedNode(new_SLLIST.getNodeData().get(0));
+			
+			for(int SORTED_NODE_DATA:new_SLLIST.getNodeData().subList(1, new_SLLIST.getNodeData().size() -1)) {
+				this.append(SORTED_NODE_DATA);
+			}
+		}
+	}
+	
+	/* OTHERS */
 }
