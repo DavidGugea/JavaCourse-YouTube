@@ -1,7 +1,7 @@
 package DataStructures_Test_MY_CODE;
 import java.util.*;
 
-public class DoublyLinkedList implements DoublyLinkedList_Interface{
+public class DoublyLinkedList{
 	/* HEAD */
 	
 	DoublyLinkedNode head = null;
@@ -67,8 +67,9 @@ public class DoublyLinkedList implements DoublyLinkedList_Interface{
 			ArrayList<Integer> NODE_DATA = new ArrayList<Integer>();
 			DoublyLinkedNode current = this.head;
 			
-			while(current.next != null) {
+			while(current != null) {
 				NODE_DATA.add(current.data);
+				current = current.next;
 			}
 			
 			return NODE_DATA;
@@ -80,4 +81,41 @@ public class DoublyLinkedList implements DoublyLinkedList_Interface{
 	}
 	
 	/* GENERAL METHODS */
+	
+	/* INSERTION / DELETION */
+	
+	public void append(int data) {
+		// Check if the doubly linked list has a head node or not. If it doesn't have a head node then create one 
+		if(this.head == null) {
+			this.head = new DoublyLinkedNode(data);
+		}else {
+			// Iterate to the end of the list and append the new node
+			DoublyLinkedNode current = this.head;
+			
+			while(current.next != null) {
+				current = current.next;
+			}
+			
+			// Append the node
+			DoublyLinkedNode APPEND_NODE = new DoublyLinkedNode(data);
+			APPEND_NODE.prev = current;
+			current.next = APPEND_NODE;
+		}
+	}
+	
+	public void prepend(int data) {
+		// Check if the doubly linked list has a last node or not. If it doesn't have a last node then create one
+		if(this.head == null) {
+			this.head = new DoublyLinkedNode(data);
+		}else {
+			DoublyLinkedNode PREPEND_NODE = new DoublyLinkedNode(data);
+			this.head.prev = PREPEND_NODE;
+			PREPEND_NODE.next = this.head;
+			
+			// Update the head node
+			this.head = PREPEND_NODE;
+		}
+	}
+	
+	/* INSERTION / DELETION */
 }
