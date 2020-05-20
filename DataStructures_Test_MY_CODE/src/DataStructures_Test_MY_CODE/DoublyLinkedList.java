@@ -1,7 +1,7 @@
 package DataStructures_Test_MY_CODE;
 import java.util.*;
 
-public class DoublyLinkedList{
+public class DoublyLinkedList implements DoublyLinkedList_Interface{
 	/* HEAD */
 	
 	DoublyLinkedNode head = null;
@@ -246,4 +246,184 @@ public class DoublyLinkedList{
 	}
 	
 	/* INSERTION / DELETION */
+	
+	/* OTHERS */
+	
+	public void nodeSwap(DoublyLinkedNode node_1, DoublyLinkedNode node_2) {
+		// Swap the node data of both nodes
+		int temp = node_1.data;
+		node_1.data = node_2.data;
+		node_2.data = temp;
+	}
+	
+	public void reverse() {
+		// Swap the pointers of all nodes
+		DoublyLinkedNode current = this.head;
+		while(current != null) {
+			DoublyLinkedNode temp = current.next;
+			
+			current.next = current.prev;
+			current.prev = temp;
+			
+			current = temp;
+		}
+	}
+	
+	public void merge(boolean sort, DoublyLinkedList MERGE_DLLIST) {
+		// Merge ( append ) all the node of the MERGE_DLLIST argument with all the  data from the first, main doubly linked list ( this )
+		for(int NODE_DATA:MERGE_DLLIST.getNodeData()) {
+			this.append(NODE_DATA);
+		}
+		
+		// Sort the doubly linked list in case it is needed
+		if(sort) {
+			// Get the doubly linked list data and sort it
+			ArrayList<Integer> NODE_DATA = this.getNodeData();
+			Collections.sort(NODE_DATA);
+			
+			this.head = new DoublyLinkedNode(NODE_DATA.get(0));
+			for(int sorted_data:NODE_DATA.subList(1, NODE_DATA.size())) {
+				this.append(sorted_data);
+			}
+		}
+	}
+	
+	public void sort() {
+		// Get the entire node data in an ArrayList<Integer> and sort it. After that, rebuild the entire ArrayList<Integer> using the sorted node data
+		ArrayList<Integer> NODE_DATA = this.getNodeData();
+		Collections.sort(NODE_DATA);
+		
+		this.head = new DoublyLinkedNode(NODE_DATA.get(0));
+		for(int sorted_data:NODE_DATA.subList(1, NODE_DATA.size())) {
+			this.append(sorted_data);
+		}
+	}
+	
+	public void removeDuplicates() {
+		// Store all the node data with the times it repeats itself in a HashMap
+		HashMap repetitions = new HashMap();
+		ArrayList<Integer> NODE_DATA = new ArrayList<Integer>();
+		
+		for(int data:NODE_DATA) {
+			// Keep track of how many times the data repeats itself in the ArrayList<Integer>
+			int counter = 0;
+			DoublyLinkedNode current = this.head;
+			
+			while(current != null) {
+				if(current.data == data) {
+					counter++;
+				}
+				current = current.next;
+			}
+			
+			if(counter - 1 > 0) {
+				repetitions.put(current, counter - 1);
+			}
+		}
+	}
+	
+	public void moveTailToHead() {
+		// Check if there are at least more than two nodes in the doubly linked list
+		if(this.head.next == null) {
+			return;
+		}else {
+			// Get the last node
+			DoublyLinkedNode current = this.head;
+			while(current.next != null) {
+				current = current.next;
+			}
+			
+			current.prev.next = null;
+			current.next = this.head;
+			this.head.prev = current;
+			this.head = this.head.prev;
+		}
+	}
+	
+	public int SumWithAnotherDoublyLinkedList(DoublyLinkedList SUM_DLLIST) {
+		// Get all the data from both list and sum all the numbers from both of them
+		int sum = 0;
+		for(int data:this.getNodeData()) {
+			sum += data;
+		}
+		for(int data:SUM_DLLIST.getNodeData()) {
+			sum += data;
+		}
+		
+		return sum;
+	}
+	
+	public ArrayList<List<Integer>> splitInHalf(){
+		ArrayList<List<Integer>> partitions = new ArrayList<List<Integer>>();
+		int FULL_LENGTH = this.getNodeData().size();
+		List<Integer> firstPartition = this.getNodeData().subList(0, FULL_LENGTH / 2);
+		List<Integer> secondPartition = this.getNodeData().subList(FULL_LENGTH / 2, FULL_LENGTH);
+		
+		partitions.add(firstPartition);
+		partitions.add(secondPartition);
+		
+		return partitions;
+	}
+	
+	public ArrayList<ArrayList<Integer>> splitAfterNode(DoublyLinkedNode node){
+		ArrayList<ArrayList<Integer>> partitions = new ArrayList<ArrayList<Integer>>();
+		
+		ArrayList<Integer> firstPartition = new ArrayList<Integer>();
+		ArrayList<Integer> secondPartition = new ArrayList<Integer>();
+		DoublyLinkedNode current = this.head;
+		boolean passedTheNode = false;
+		
+		while(current != null) {
+			if(passedTheNode) {
+				secondPartition.add(current.data);
+			}else {
+				firstPartition.add(current.data);
+			}
+			
+			if(current == node) {
+				passedTheNode = true;
+			}
+			
+			current = current.next; 
+		}
+		
+		return partitions;
+	}
+	
+	public ArrayList<List<Integer>> splitAtIndex(int index){
+		ArrayList<List<Integer>> partitions = new ArrayList<List<Integer>>();
+		partitions.add(this.getNodeData().subList(0, index));
+		partitions.add(this.getNodeData().subList(index, this.getNodeData().size() - 1));
+		
+		return partitions;
+	}
+	
+	public ArrayList<ArrayList<Integer>> pairsWithSum(int sum_value){
+		// Store all the numbers in the doubly linked list pairs in an ArrayList<ArrayList<Integer>>
+		ArrayList<ArrayList<Integer>> pairs = new ArrayList<ArrayList<Integer>>();
+		ArrayList<Integer> NODE_DATA = this.getNodeData();
+ 		
+		for(int i:NODE_DATA) {
+			for(int j:NODE_DATA) {
+				ArrayList<Integer> pair = new ArrayList<Integer>();
+				
+				pair.add(i);
+				pair.add(j);
+				
+				pairs.add(pair);
+			}
+		}
+		
+		// Filter all the pairs in the pairs ArrayList<ArrayList<Integer>> so that only the pairs that summed, return the given sum_value remain in the list.
+		ArrayList<ArrayList<Integer>> pairsWithGivenSum = new ArrayList<ArrayList<Integer>>();
+		for(ArrayList<Integer> pair:pairs) {
+			if(pair.get(0) + pair.get(1) == sum_value && !pairsWithGivenSum.contains(pair)) {
+				pairsWithGivenSum.add(pair);
+			}
+		}
+		
+		return pairsWithGivenSum;
+	}
+	
+	/* OTHERS */
 }

@@ -44,13 +44,13 @@ public interface DoublyLinkedList_Interface {
 	void nodeSwap(DoublyLinkedNode node_1, DoublyLinkedNode node_2);
 	void reverse();
 	
-	void merge(boolean sort, DoublyLinkedNode MERGE_SLLIST);
+	void merge(boolean sort, DoublyLinkedList MERGE_DLLIST);
 	void sort();
 	
 	void removeDuplicates();
 	
 	void moveTailToHead();
-	int SumWithAnotherDoublyLinkedList(DoublyLinkedList SUM_SLLIST);
+	int SumWithAnotherDoublyLinkedList(DoublyLinkedList SUM_DLLIST);
 	
 	ArrayList<List<Integer>> splitInHalf();
 	ArrayList<ArrayList<Integer>> splitAfterNode(DoublyLinkedNode node);
