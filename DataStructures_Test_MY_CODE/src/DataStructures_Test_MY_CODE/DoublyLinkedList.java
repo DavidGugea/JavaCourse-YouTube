@@ -134,7 +134,7 @@ public class DoublyLinkedList{
 		DoublyLinkedNode current = this.head;
 		
 		while(current != null) {
-			if(current.data == data) {
+			if(current.data == searchData) {
 				break;
 			}
 			current = current.next;
@@ -214,7 +214,7 @@ public class DoublyLinkedList{
 			
 			current.prev.next = current.next;
 			
-			if(current.next.prev != null) {
+			if(current.next != null) {
 				current.next.prev = current.prev;
 			}
 		}

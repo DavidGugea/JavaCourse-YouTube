@@ -19,6 +19,13 @@ public class Main {
 		System.out.println(DLL.contains(50));
 		*/
 		
+		// DLL.insertAfterNode(DLL.head.next.next, 5000);
+		// DLL.insertAfterNodeWithData(2, 5000);
+		// DLL.insertAtIndex(3, 232);
+		// DLL.deleteNode(DLL.getLastNode());
+		// DLL.deleteAtIndex(DLL.getLength() - 1);
+		// DLL.deleteNodeWithData(5);
+		
 		spaceUp();
 		ArrayList<Integer> NODE_DATA = DLL.getNodeData();
 		System.out.println(NODE_DATA);

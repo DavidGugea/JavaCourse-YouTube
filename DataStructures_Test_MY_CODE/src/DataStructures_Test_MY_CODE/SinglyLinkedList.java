@@ -156,6 +156,10 @@ public class SinglyLinkedList implements SinglyLinkedList_Interface{
 		SinglyLinkedNode INSERTION_NODE = new SinglyLinkedNode(data);
 		INSERTION_NODE.next = current.next;
 		current.next = INSERTION_NODE;
+		
+		if(searchIndex == 0) {
+			this.head = INSERTION_NODE;
+		}
 	}
 	
 	public void deleteNode(SinglyLinkedNode node) {
