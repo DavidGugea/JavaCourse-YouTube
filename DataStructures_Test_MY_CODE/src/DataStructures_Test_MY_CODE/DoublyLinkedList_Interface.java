@@ -3,10 +3,10 @@ package DataStructures_Test_MY_CODE;
 import java.util.ArrayList;
 import java.util.List;
 
-public interface SinglyLinkedList_Interface {
+public interface DoublyLinkedList_Interface {
 	/* HEAD NODE */
 	
-	SinglyLinkedNode head = null;
+	DoublyLinkedNode head = null;
 	
 	/* HEAD NODE */
 	
@@ -14,8 +14,8 @@ public interface SinglyLinkedList_Interface {
 	
 	int getLength();
 	
-	SinglyLinkedNode atIndex(int index);
-	SinglyLinkedNode getLastNode();
+	DoublyLinkedNode atIndex(int index);
+	DoublyLinkedNode getLastNode();
 	
 	ArrayList<Integer> getNodeData();
 	
@@ -29,11 +29,11 @@ public interface SinglyLinkedList_Interface {
 	void prepend(int data);
 	
 	// the 'data' argument is for the node that we want to insert
-	void insertAfterNode(SinglyLinkedNode searchNode, int data);
+	void insertAfterNode(DoublyLinkedNode searchNode, int data);
 	void insertAfterNodeWithData(int searchData, int data);
 	void insertAtIndex(int searchIndex, int data);
 	
-	void deleteNode(SinglyLinkedNode node);
+	void deleteNode(DoublyLinkedNode node);
 	void deleteAtIndex(int index);
 	void deleteNodeWithData(int data);
 	
@@ -41,19 +41,19 @@ public interface SinglyLinkedList_Interface {
 
 	/* OTHERS */
 	
-	void nodeSwap(SinglyLinkedNode node_1, SinglyLinkedNode node_2);
+	void nodeSwap(DoublyLinkedNode node_1, DoublyLinkedNode node_2);
 	void reverse();
 	
-	void merge(boolean sort, SinglyLinkedList MERGE_SLLIST);
+	void merge(boolean sort, DoublyLinkedNode MERGE_SLLIST);
 	void sort();
 	
 	void removeDuplicates();
 	
 	void moveTailToHead();
-	int SumWithAnotherSinglyLinkedList(SinglyLinkedList SUM_SLLIST);
+	int SumWithAnotherDoublyLinkedList(DoublyLinkedList SUM_SLLIST);
 	
 	ArrayList<List<Integer>> splitInHalf();
-	ArrayList<ArrayList<Integer>> splitAfterNode(SinglyLinkedNode node);
+	ArrayList<ArrayList<Integer>> splitAfterNode(DoublyLinkedNode node);
 	ArrayList<List<Integer>> splitAtIndex(int index);
 	
 	ArrayList<ArrayList<Integer>> pairsWithSum(int sum_value);
