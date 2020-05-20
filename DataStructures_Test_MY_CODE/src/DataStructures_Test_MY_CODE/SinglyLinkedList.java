@@ -19,7 +19,7 @@ public class SinglyLinkedList implements SinglyLinkedList_Interface{
 			SinglyLinkedNode current = this.head;
 			int counter = 0;
 			
-			while(current.next != null) {
+			while(current != null) {
 				counter++;
 				current = current.next;
 			}
@@ -115,22 +115,15 @@ public class SinglyLinkedList implements SinglyLinkedList_Interface{
 	}
 	
 	public void insertAfterNode(SinglyLinkedNode searchNode, int data) {
-		// Start at the head node and iterate from the head node until we find the given node
-		SinglyLinkedNode current = this.head;
-		
-		while(current != searchNode) {
-			current = current.next;
-		}
-		
 		// Create the insertNode and change the pointers of the needed nodes
 		SinglyLinkedNode INSERTION_NODE = new SinglyLinkedNode(data);
 		
-		INSERTION_NODE.next = current.next;
-		current.next = INSERTION_NODE.next;
+		INSERTION_NODE.next = searchNode.next;
+		searchNode.next = INSERTION_NODE;
 		
 	}
 	
-	public void insetAfterNodeWithData(int searchData, int data) {
+	public void insertAfterNodeWithData(int searchData, int data) {
 		// Start to search at the head and iterate through the singly linked list until we get to the search data
 		SinglyLinkedNode current = this.head;
 		
@@ -154,7 +147,7 @@ public class SinglyLinkedList implements SinglyLinkedList_Interface{
 		SinglyLinkedNode current = this.head;
 		int indexTrack = 0;
 		
-		while(indexTrack < searchIndex) {
+		while(indexTrack < searchIndex - 1) {
 			current = current.next;
 			indexTrack++;
 		}
@@ -166,56 +159,71 @@ public class SinglyLinkedList implements SinglyLinkedList_Interface{
 	}
 	
 	public void deleteNode(SinglyLinkedNode node) {
-		// Start at the head node and iterate till we get to the node before the node that we want to delete
-		SinglyLinkedNode prev = null;
-		SinglyLinkedNode current = null;
-		
-		while(current != node) {
-			prev = current;
-			current = current.next;
+		// Check if the given node is the head node
+		if(this.head == node) {
+			this.head = this.head.next;
+		}else {
+			// Start at the head node and iterate till we get to the node before the node that we want to delete
+			SinglyLinkedNode prev = null;
+			SinglyLinkedNode current = this.head;
+			
+			while(current != node) {
+				prev = current;
+				current = current.next;
+			}
+			
+			// Update the pointers
+			prev.next = node.next;
 		}
-		
-		// Update the pointers
-		prev.next = node.next;
 	}
 	
 	public void deleteAtIndex(int index) {
-		// Check the given index
-		if(!(0 <= index && index < this.getLength())) {
-			throw new ArrayIndexOutOfBoundsException(String.format("The given index was either too big or too small for the singly linked list. It must be a number between 0 and %d. You gave : %d", this.getLength() - 1, index));
-		}
-		
-		// Find the node at the given index and delete it by starting at the head node and keeping track of the previous node & of the index
-		SinglyLinkedNode prev = null;
-		SinglyLinkedNode current = this.head;
-		int indexTrack = 0;
-		
-		while(indexTrack < index) {
-			prev = current;
-			current = current.next;
+		// Check if the given index is 0, so if the node that must be deleted is the head node
+		if(index == 0) {
+			this.head = this.head.next;
+		}else {
+			// Check the given index
+			if(!(0 <= index && index < this.getLength())) {
+				throw new ArrayIndexOutOfBoundsException(String.format("The given index was either too big or too small for the singly linked list. It must be a number between 0 and %d. You gave : %d", this.getLength() - 1, index));
+			}
 			
-			indexTrack++;
+			// Find the node at the given index and delete it by starting at the head node and keeping track of the previous node & of the index
+			SinglyLinkedNode prev = null;
+			SinglyLinkedNode current = this.head;
+			int indexTrack = 0;
+			
+			while(indexTrack < index) {
+				prev = current;
+				current = current.next;
+				
+				indexTrack++;
+			}
+			
+			prev.next = current.next;
 		}
-		
-		prev.next = current.next;
 	}
 	
 	public void deleteNodeWithData(int data) {
-		// Start at the head node and iterate until we find the node with the given data
-		SinglyLinkedNode prev = null;
-		SinglyLinkedNode current = this.head;
-		
-		while(current != null) {
-			if(current.data == data) {
-				break;
+		// Check if the given data is equal to the data that the head node has, so if the node that must be deleted is the head node or not
+		if(this.head.data == data) {
+			this.head = this.head.next;
+		}else {
+			// Start at the head node and iterate until we find the node with the given data
+			SinglyLinkedNode prev = null;
+			SinglyLinkedNode current = this.head;
+			
+			while(current != null) {
+				if(current.data == data) {
+					break;
+				}
+				
+				prev = current;
+				current = current.next;
 			}
 			
-			prev = current;
-			current = current.next;
+			// Update the node pointers
+			prev.next = current.next;
 		}
-		
-		// Update the node pointers
-		prev.next = current.next;
 	}
 	
 	/* INSERTION / DELETION / SEARCH */
@@ -262,19 +270,166 @@ public class SinglyLinkedList implements SinglyLinkedList_Interface{
 			Collections.sort(NODE_DATA);
 			
 			// Rebuild the singly linked list.
-			SinglyLinkedList new_SLLIST = new SinglyLinkedList();
+			this.head = new SinglyLinkedNode(NODE_DATA.get(0));
 			
-			for(int SORTED_NODE_DATA:NODE_DATA) {
-				new_SLLIST.append(SORTED_NODE_DATA);
-			}
-			
-			// Update the singly linked list
-			this.head = new SinglyLinkedNode(new_SLLIST.getNodeData().get(0));
-			
-			for(int SORTED_NODE_DATA:new_SLLIST.getNodeData().subList(1, new_SLLIST.getNodeData().size() -1)) {
+			for(int SORTED_NODE_DATA:NODE_DATA.subList(1, NODE_DATA.size() -1)) {
 				this.append(SORTED_NODE_DATA);
 			}
 		}
+	}
+	
+	public void sort() {
+		// Sort the node data list
+		ArrayList<Integer> SORTED_NODE_DATA = this.getNodeData();
+		Collections.sort(SORTED_NODE_DATA);
+		
+		// Rebuild the singly linked list
+		this.head = new SinglyLinkedNode(SORTED_NODE_DATA.get(0));
+		
+		for(int NODE_DATA:SORTED_NODE_DATA.subList(0, SORTED_NODE_DATA.size() - 1)) {
+			this.append(NODE_DATA);
+		}
+	}
+	
+	public void removeDuplicates() {
+		// Store all the node data in a hash map with all the times it is duplicated. ( NODE DATA ( key ) -> REPETITIONS ( values ) )
+		HashMap repetitions = new HashMap();
+		ArrayList<Integer> NODE_DATA = this.getNodeData();
+		
+		for(int data:NODE_DATA) {
+			// Count how many times the data repeats itself in the NODE_DATA ArrayList<Integer>
+			int counter = 0;
+			for(int d:NODE_DATA) {
+				if(d == data) {
+					counter++;
+				}
+			}
+			
+			// We write check for counter - 1 because if the data appears only once in the ArrayList<Integer> then that means that we don't have any repetitions, so that means that it doesn't repeat itself. If we have '2', then counter - 1 is 1 so we have 1 duplicate for that number
+			if(counter - 1 > 0) {
+				repetitions.put(data, counter);
+			}
+		}
+		
+		// Remove the duplicates based on the data store in the repetitons HashMap
+		for(Object data_duplicate:repetitions.keySet()) {
+			// Convert the data_duplicate to integer 
+			int data_DELETE = (int)data_duplicate;
+			
+			// Remove it's duplicates
+			for(int i = 0 ; i < (int)repetitions.get(data_duplicate); i++) {
+				this.deleteNodeWithData(data_DELETE);
+			}
+		}
+	}
+	
+	public void moveTailToHead() {
+		// Get the last node
+		SinglyLinkedNode prev = null;
+		SinglyLinkedNode current = this.head;
+		while(current.next != null) {
+			prev = current;
+			current = current.next;
+		}
+		current.next = this.head.next;
+		prev.next = this.head;
+		this.head.next = null;
+		this.head = current;
+	}
+	
+	public int SumWithAnotherSinglyLinkedList(SinglyLinkedList SUM_SLLIST) {
+		// Get all the node data from both singly linked list and add all the node data from both of them.
+		int sum = 0;
+		
+		for(int data:this.getNodeData()) {
+			sum += data;
+		}
+		for(int data:SUM_SLLIST.getNodeData()) {
+			sum += data;
+		}
+		
+		return sum;
+	}
+	
+	public ArrayList<List<Integer>> splitInHalf(){
+		// Get all the node data in two ArrayList<Integer> objects.
+		ArrayList<List<Integer>> halves = new ArrayList<List<Integer>>();
+		int FULL_LENGTH = this.getNodeData().size();
+		
+		halves.add(this.getNodeData().subList(0, FULL_LENGTH / 2));
+		halves.add(this.getNodeData().subList(FULL_LENGTH/2, FULL_LENGTH));
+		
+		return halves;
+	}
+	
+	public ArrayList<ArrayList<Integer>> splitAfterNode(SinglyLinkedNode node){
+		// Create the array lists ( both types : ArrayList<ArrayList<Integer>> & ArrayList<Integer>
+		ArrayList<ArrayList<Integer>> partitions = new ArrayList<ArrayList<Integer>>();
+		ArrayList<Integer> firstPartition = new ArrayList<Integer>();
+		ArrayList<Integer> secondPartition = new ArrayList<Integer>();
+		
+		// Put the nodes in both partitions ( firstPartition & secondPartition )
+		SinglyLinkedNode current = this.head;
+		boolean passedTheGivenNode = false;
+		
+		while(current != null) {
+			if(passedTheGivenNode) {
+				secondPartition.add(current.data);
+			}else {
+				firstPartition.add(current.data);
+			}
+			
+			if(current == node) {
+				passedTheGivenNode = true;
+			}
+			
+			current = current.next;
+		}
+		
+		// Add both partitions into the big ArrayList<ArrayList<Integer>>
+		partitions.add(firstPartition);
+		partitions.add(secondPartition);
+		
+		// Return the big partition
+		return partitions;
+	}
+	
+	public ArrayList<List<Integer>> splitAtIndex(int index){
+		ArrayList<List<Integer>> partitions = new ArrayList<List<Integer>>();
+		
+		partitions.add(this.getNodeData().subList(0, index));
+		partitions.add(this.getNodeData().subList(index, this.getNodeData().size()));
+		
+		return partitions;
+	}
+	
+	public ArrayList<ArrayList<Integer>> pairsWithSum(int sum_value){
+		// Get all the pairs in one big ArrayList<ArrayList<Integer>>
+		ArrayList<ArrayList<Integer>> pairs = new ArrayList<ArrayList<Integer>>();
+		ArrayList<Integer> NODE_DATA = this.getNodeData();
+		
+		for(int mainPivot:NODE_DATA) {
+			for(int secondaryValue:NODE_DATA) {
+				// Create a new pair and add both values to it. After that add the pair to the ArrayList<ArrayList<Integer>> object.
+				ArrayList<Integer> pair = new ArrayList<Integer>();
+				
+				pair.add(mainPivot);
+				pair.add(secondaryValue);
+				
+				pairs.add(pair);
+			}
+		}
+		
+		// Check all the pairs ArrayList for pairs that summed return the given sum_value;
+		ArrayList<ArrayList<Integer>> pairsWithSum = new ArrayList<ArrayList<Integer>>();
+		
+		for(ArrayList<Integer> pair:pairs) {
+			if(pair.get(0) + pair.get(1) == sum_value) {
+				pairsWithSum.add(pair);
+			}
+		}
+		
+		return pairsWithSum;
 	}
 	
 	/* OTHERS */

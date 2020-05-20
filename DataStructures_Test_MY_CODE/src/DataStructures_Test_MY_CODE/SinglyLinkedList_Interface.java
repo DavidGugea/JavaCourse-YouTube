@@ -46,14 +46,13 @@ public interface SinglyLinkedList_Interface{
 	void sort();
 	
 	void removeDuplicates();
-	void rotate(int rotationValue);
 	
 	void moveTailToHead();
-	void SumWithAnotherSinglyLinkedList(SinglyLinkedList SUM_SLLIST);
+	int SumWithAnotherSinglyLinkedList(SinglyLinkedList SUM_SLLIST);
 	
-	ArrayList<ArrayList<Integer>> splitInHalf();
+	ArrayList<List<Integer>> splitInHalf();
 	ArrayList<ArrayList<Integer>> splitAfterNode(SinglyLinkedNode node);
-	ArrayList<ArrayList<Integer>> splitAtIndex(int index);
+	ArrayList<List<Integer>> splitAtIndex(int index);
 	
 	ArrayList<ArrayList<Integer>> pairsWithSum(int sum_value);
 	
