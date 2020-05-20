@@ -20,6 +20,7 @@ public interface DoublyLinkedList_Interface {
 	ArrayList<Integer> getNodeData();
 	
 	boolean contains(int data);
+	boolean checkPrevPointerForNodes();
 	
 	/* GENERAL METHODS */
 

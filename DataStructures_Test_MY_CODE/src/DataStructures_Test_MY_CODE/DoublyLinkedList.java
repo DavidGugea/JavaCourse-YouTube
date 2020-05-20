@@ -80,6 +80,23 @@ public class DoublyLinkedList implements DoublyLinkedList_Interface{
 		return this.getNodeData().contains(data);
 	}
 	
+	public boolean checkPrevPointerForNodes() {
+		// Check if .prev points to the previous node
+		DoublyLinkedNode prev = null;
+		DoublyLinkedNode current = this.head;
+		
+		while(current != null) {
+			if(current.prev == prev) {
+				prev = current;
+				current = current.next;
+			}else {
+				return false;
+			}
+		}
+		
+		return true;
+	}
+	
 	/* GENERAL METHODS */
 	
 	/* INSERTION / DELETION */
@@ -258,6 +275,7 @@ public class DoublyLinkedList implements DoublyLinkedList_Interface{
 	
 	public void reverse() {
 		// Swap the pointers of all nodes
+		DoublyLinkedNode prev = null;
 		DoublyLinkedNode current = this.head;
 		while(current != null) {
 			DoublyLinkedNode temp = current.next;
@@ -265,8 +283,12 @@ public class DoublyLinkedList implements DoublyLinkedList_Interface{
 			current.next = current.prev;
 			current.prev = temp;
 			
+			prev = current;
 			current = temp;
 		}
+		
+		// Update the head node
+		this.head = prev;
 	}
 	
 	public void merge(boolean sort, DoublyLinkedList MERGE_DLLIST) {
@@ -274,7 +296,7 @@ public class DoublyLinkedList implements DoublyLinkedList_Interface{
 		for(int NODE_DATA:MERGE_DLLIST.getNodeData()) {
 			this.append(NODE_DATA);
 		}
-		
+
 		// Sort the doubly linked list in case it is needed
 		if(sort) {
 			// Get the doubly linked list data and sort it
@@ -302,7 +324,7 @@ public class DoublyLinkedList implements DoublyLinkedList_Interface{
 	public void removeDuplicates() {
 		// Store all the node data with the times it repeats itself in a HashMap
 		HashMap repetitions = new HashMap();
-		ArrayList<Integer> NODE_DATA = new ArrayList<Integer>();
+		ArrayList<Integer> NODE_DATA = this.getNodeData();
 		
 		for(int data:NODE_DATA) {
 			// Keep track of how many times the data repeats itself in the ArrayList<Integer>
@@ -317,7 +339,14 @@ public class DoublyLinkedList implements DoublyLinkedList_Interface{
 			}
 			
 			if(counter - 1 > 0) {
-				repetitions.put(current, counter - 1);
+				repetitions.put(data, counter - 1);
+			}
+		}
+		
+		// Remove the duplicates using the hash map that we created
+		for(Object key:repetitions.keySet()) {
+			for(int i = 0 ; i < (int)repetitions.get(key); i++) {
+				this.deleteNodeWithData((int)key);
 			}
 		}
 	}
@@ -387,13 +416,16 @@ public class DoublyLinkedList implements DoublyLinkedList_Interface{
 			current = current.next; 
 		}
 		
+		partitions.add(firstPartition);
+		partitions.add(secondPartition);
+		
 		return partitions;
 	}
 	
 	public ArrayList<List<Integer>> splitAtIndex(int index){
 		ArrayList<List<Integer>> partitions = new ArrayList<List<Integer>>();
 		partitions.add(this.getNodeData().subList(0, index));
-		partitions.add(this.getNodeData().subList(index, this.getNodeData().size() - 1));
+		partitions.add(this.getNodeData().subList(index, this.getNodeData().size()));
 		
 		return partitions;
 	}
